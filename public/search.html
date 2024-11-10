@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Search word</title>
+  </head>
+  <body>
+    <h1>Search Word Meaning</h1>
+    <input type="text" id="inputBox" placeholder="Enter Word" />
+    <button onclick="fetchData()">Search</button>
+    <div id="result"></div>
+
+    <script>
+      function fetchData() {
+  const input = document.getElementById('inputBox').value;
+  fetch(`/fetch-data?input=${input}`)
+    .then(response => {
+      if (!response.ok) {
+        // Throw error if response is not ok (e.g., 500 error)
+        throw new Error('Error fetching data');
+      }
+      return response.json();
+    })
+    .then(data => {
+      const resultDiv = document.getElementById('result');
+      resultDiv.innerHTML = JSON.stringify(data, null, 2); // Display data as JSON
+    })
+    .catch(error => {
+      console.error('Error:', error);
+      document.getElementById('result').innerHTML = 'An error occurred while fetching data.';
+    });
+}
+
+    </script>
+  </body>
+</html>
