@@ -3,7 +3,23 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Search word</title>
+    <title>Search Word</title>
+    <style>
+      table {
+        border-collapse: collapse;
+        width: 100%;
+        margin-top: 20px;
+      }
+      th, td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: left;
+      }
+      th {
+        background-color: #f2f2f2;
+      }
+    </style>
+    <link rel="stylesheet" href="search.css">
   </head>
   <body>
     <h1>Search Word Meaning</h1>
@@ -13,25 +29,88 @@
 
     <script>
       function fetchData() {
-  const input = document.getElementById('inputBox').value;
-  fetch(`/fetch-data?input=${input}`)
-    .then(response => {
-      if (!response.ok) {
-        // Throw error if response is not ok (e.g., 500 error)
-        throw new Error('Error fetching data');
-      }
-      return response.json();
-    })
-    .then(data => {
-      const resultDiv = document.getElementById('result');
-      resultDiv.innerHTML = JSON.stringify(data, null, 2); // Display data as JSON
-    })
-    .catch(error => {
-      console.error('Error:', error);
-      document.getElementById('result').innerHTML = 'An error occurred while fetching data.';
-    });
-}
+        const input = document.getElementById('inputBox').value;
+        fetch(`/fetch-data?input=${input}`)
+          .then(response => {
+            if (!response.ok) {
+              throw new Error('Error fetching data');
+            }
+            return response.json();
+          })
+          .then(data => {
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = ''; // Clear previous results
 
+            // Render the data as a table
+            const table = createTableFromData(data);
+            resultDiv.appendChild(table);
+          })
+          .catch(error => {
+            console.error('Error:', error);
+            document.getElementById('result').innerHTML = 'An error occurred while fetching data.';
+          });
+      }
+
+      function createTableFromData(data) {
+        const table = document.createElement('table');
+        const headerRow = document.createElement('tr');
+
+        // Add table headers
+        const keyHeader = document.createElement('th');
+        keyHeader.textContent = 'Key';
+        headerRow.appendChild(keyHeader);
+
+        const valueHeader = document.createElement('th');
+        valueHeader.textContent = 'Value';
+        headerRow.appendChild(valueHeader);
+
+        table.appendChild(headerRow);
+
+        // Add table rows
+        addRowsToTable(data, table);
+
+        return table;
+      }
+
+      function addRowsToTable(data, table) {
+        if (typeof data === 'object' && data !== null) {
+          for (const key in data) {
+            if (data.hasOwnProperty(key)) {
+              const value = data[key];
+              const row = document.createElement('tr');
+
+              const keyCell = document.createElement('td');
+              keyCell.textContent = key;
+              row.appendChild(keyCell);
+
+              const valueCell = document.createElement('td');
+              if (typeof value === 'object' && value !== null) {
+                // If the value is an object or array, format it recursively
+                const nestedTable = createTableFromData(value);
+                valueCell.appendChild(nestedTable);
+              } else {
+                // If the value is a simple type, display it directly
+                valueCell.textContent = value;
+              }
+              row.appendChild(valueCell);
+
+              table.appendChild(row);
+            }
+          }
+        } else {
+          // For non-object data, create a single-row table
+          const row = document.createElement('tr');
+          const keyCell = document.createElement('td');
+          keyCell.textContent = 'Value';
+          row.appendChild(keyCell);
+
+          const valueCell = document.createElement('td');
+          valueCell.textContent = data;
+          row.appendChild(valueCell);
+
+          table.appendChild(row);
+        }
+      }
     </script>
   </body>
 </html>

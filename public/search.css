@@ -1,0 +1,83 @@
+/* General Styling */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #121212; /* Dark background */
+    color: #ffffff; /* Light text for contrast */
+    text-align: center;
+  }
+  
+  /* Header Styling */
+  h1 {
+    color: #4CAF50; /* Accent color for header */
+    margin-top: 20px;
+  }
+  
+  /* Input and Button Styling */
+  input[type="text"] {
+    width: 300px;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #333; /* Dark border */
+    border-radius: 5px;
+    background-color: #1e1e1e; /* Input background */
+    color: #ffffff; /* Text color */
+    font-size: 16px;
+  }
+  
+  button {
+    background-color: #4CAF50;
+    color: #ffffff;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+    margin-top: 10px;
+    transition: background-color 0.3s ease;
+  }
+  
+  button:hover {
+    background-color: #45a049;
+  }
+  
+  /* Table Styling */
+  table {
+    border-collapse: collapse;
+    width: 80%;
+    margin: 20px auto;
+    background-color: #1e1e1e; /* Table background */
+    color: #ffffff; /* Table text color */
+  }
+  
+  th, td {
+    border: 1px solid #333; /* Dark border */
+    padding: 10px;
+    text-align: left;
+  }
+  
+  th {
+    background-color: #4CAF50; /* Header background color */
+    color: #ffffff; /* Header text color */
+  }
+  
+  tr:nth-child(even) {
+    background-color: #2a2a2a; /* Alternate row background for readability */
+  }
+  
+  tr:hover {
+    background-color: #333333; /* Highlight row on hover */
+  }
+  
+  /* Responsive Design */
+  @media screen and (max-width: 600px) {
+    input[type="text"] {
+      width: 90%;
+    }
+  
+    table {
+      width: 100%;
+    }
+  }
+  
